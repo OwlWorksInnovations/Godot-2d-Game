@@ -1,0 +1,86 @@
+[gd_scene load_steps=8 format=3 uid="uid://com6yw3oqd2t6"]
+
+[ext_resource type="PackedScene" uid="uid://e07nl34fein2" path="res://Scenes/player.tscn" id="1_nh2g2"]
+[ext_resource type="Texture2D" uid="uid://4btv6wfs44fv" path="res://tilemap.png" id="2_hf7fv"]
+[ext_resource type="FontFile" uid="uid://bur03kn8k3w8y" path="res://PixelatedEleganceRegular-ovyAA.ttf" id="3_hwa0b"]
+[ext_resource type="Script" path="res://Scripts/game_manager.gd" id="4_mgom8"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bwh1o"]
+texture = ExtResource("2_hf7fv")
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:0/0 = 0
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:0/0 = 0
+2:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:1/0 = 0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+1:1/0 = 0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+2:1/0 = 0
+2:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+0:2/0 = 0
+0:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_8iop6"]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_bwh1o")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dy6wd"]
+size = Vector2(11217, 255)
+
+[node name="test" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_nh2g2")]
+position = Vector2(153, 896)
+scale = Vector2(8, 8)
+collision_layer = 3
+collision_mask = 3
+
+[node name="TileMap" type="TileMap" parent="."]
+texture_filter = 1
+scale = Vector2(4.5, 4.5)
+tile_set = SubResource("TileSet_8iop6")
+format = 2
+layer_0/tile_data = PackedInt32Array(917504, 0, 0, 917505, 0, 2, 917506, 65536, 1, 917507, 0, 2, 917508, 65536, 1, 917509, 0, 2, 917510, 65536, 1, 917511, 0, 2, 917512, 65536, 1, 917513, 0, 2, 917514, 65536, 1, 917515, 0, 2, 917516, 65536, 1, 917517, 0, 2, 917518, 65536, 1, 917519, 0, 2, 917520, 65536, 1, 917521, 0, 2, 917522, 65536, 1, 917523, 0, 2, 917524, 65536, 1, 917530, 0, 0, 917525, 0, 2, 917526, 65536, 1, 917527, 0, 2, 917528, 65536, 1, 917529, 0, 2, 851968, 131072, 1, 786432, 131072, 1, 720896, 131072, 1, 655360, 131072, 1, 589824, 0, 0, 589850, 0, 0, 655386, 131072, 1, 720922, 131072, 1, 786458, 131072, 1, 851994, 131072, 1, 851986, 0, 0, 786451, 0, 0, 786452, 0, 0, 851985, 0, 0, 786450, 0, 0, 786455, 0, 0, 786456, 0, 0, 720920, 0, 0, 720921, 0, 0, 655385, 0, 0)
+
+[node name="ui" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="ui"]
+z_index = -1
+layout_mode = 0
+offset_left = 285.0
+offset_top = 877.0
+offset_right = 714.0
+offset_bottom = 930.0
+theme_override_fonts/font = ExtResource("3_hwa0b")
+theme_override_font_sizes/font_size = 56
+text = "a,d to move"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="ui"]
+z_index = -1
+layout_mode = 0
+offset_left = 284.0
+offset_top = 932.0
+offset_right = 800.0
+offset_bottom = 985.0
+theme_override_fonts/font = ExtResource("3_hwa0b")
+theme_override_font_sizes/font_size = 56
+text = "space to jump"
+horizontal_alignment = 1
+
+[node name="Game Manager" type="Node" parent="."]
+script = ExtResource("4_mgom8")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(5224.5, 1519.5)
+shape = SubResource("RectangleShape2D_dy6wd")
+
+[connection signal="body_entered" from="Area2D" to="Player" method="_on_area_2d_body_entered"]
